@@ -5,7 +5,7 @@ pipeline {
         stage('Prepare') {
             steps {
                 echo 'clone'
-                git 'https://github.com/maximsmirin/jenkins-workshop.git'
+                checkout scm
             }
         }
         stage('Build') {
