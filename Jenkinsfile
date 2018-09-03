@@ -1,14 +1,27 @@
-node 
-    stage ('Preparation'){
-        echo 'GIT Clone'
-        git clone https://github.com/maximsmirin/jenkins-workshop.git
-    }
-    stage ('Build'){
-        echo 'Clean Package'
-	      mvn clean package
-    }
-    stage ('Results'){
-        echo 'Hello World'
-    }
+pipeline {
+    agent any
 
+    stages {
+        stage('Prepare') {
+            steps {
+                echo 'clone'
+                git 'https://github.com/maximsmirin/jenkins-workshop.git'
+            }
+        }
+        stage('Build') {
+            steps {
+             echo 'build'
+             sh 'mvn clean package'
+	            
+            }
+        }
+        stage('Results') {
+            steps {
+                echo 'Junit'
+                junit '**/target/surefire-reports/TEST-*.xml'
+                archiveArtifacts  'target/*.jar'
+            }
+        }
+       
+    }
 }
